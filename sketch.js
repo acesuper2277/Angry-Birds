@@ -7,8 +7,8 @@ var engine, world;
 var box1, box2 ,box3 ,box4 ,box5;
 var backgroundImg,platform;
 var pig1 ,pig3;
-var log1 ,log2 ,log3 ,log4 ,log5, constrainedLog;
-var chain;
+var log1 ,log2 ,log3 ,log4 ,log5;
+var sling;
 
 function preload() {
     backgroundImg = loadImage("sprites/bg.png");
@@ -39,8 +39,7 @@ function setup(){
     log5 = new Log(870,120,150, -PI/7);
 
     bird = new Bird(100,100);
-    constrainedLog = new Log(230, 180 ,80, PI/2);
-    chain = new Chain(bird.body, constrainedLog.body);
+    sling = new Slingshot(bird.body, {x:200, y:100});
 
 
 }
@@ -48,9 +47,6 @@ function setup(){
 function draw(){
     background(backgroundImg);
     Engine.update(engine);
-    console.log(box2.body.position.x);
-    console.log(box2.body.position.y);
-    console.log(box2.body.angle);
     box1.display();
     box2.display();
     ground.display();
@@ -67,7 +63,16 @@ function draw(){
     log5.display();
 
     bird.display();
-    constrainedLog.display();
-    chain.display();
+    sling.display();
     platform.display();
+}
+ 
+function mouseDragged(){
+
+    Matter.Body.setPosition(bird.body, {x:mouseX , y:mouseY});
+}
+
+function mouseReleased(){
+
+    sling.fly();
 }
